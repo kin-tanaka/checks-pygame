@@ -1,69 +1,46 @@
 import pygame
-import os
 
 
-# Inicializa o Pygame
+# Inicializa o Pygame, cria a janela e define o estado inicial do jogo
 def inicializa():
     pygame.init()
+    window = pygame.display.set_mode((640, 480), vsync=True, flags=pygame.SCALED)
 
-    # Gera tela principal
-    window = pygame.display.set_mode((640, 480))
-    pygame.display.set_caption('Jogo do KIN')
-
-    # Carrega os assets do jogo
     assets = {
-        'jogador': pygame.image.load(os.path.join('assets/img/ex_movimentacao', 'player.png'))
     }
 
     state = {
-        'jogador_x': window.get_width() // 2,
-        'jogador_y': window.get_height() // 2
+        'ball_pos': [100, 150],
+        'ball_vel': [400, 300],  # pixels per second
+        'last_updated': 0
     }
 
     return window, assets, state
 
 
-# Verifica os eventos do jogo
-def recebe_eventos(state):
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            return False
-        
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RIGHT:
-                state['jogador_x'] += 10
-            elif event.key == pygame.K_LEFT:
-                state['jogador_x'] -= 10
-            elif event.key == pygame.K_UP:
-                state['jogador_y'] -= 10
-            elif event.key == pygame.K_DOWN:
-                state['jogador_y'] += 10
-
-    return True
-
-
-# Desenha os elementos na tela
-def desenha(window, assets, state):
-    # Define as cores
-    preto = (0, 0, 0)
-    branco = (255, 255, 255)
-    azul = (0, 0, 255)
-
-    # Preenche a tela com a cor preta
-    window.fill(branco)
-
-    jogador = assets['jogador']
-    posicao_jogador = jogador.get_rect(center = (state['jogador_x'], state['jogador_y']))
-    window.blit(jogador, posicao_jogador)
-
-    # Atualiza a tela
+# Desenha a bola na tela com base na posição atual
+def desenha(window: pygame.Surface, assets, state):
+    window.fill((0, 0, 0))
+    pygame.draw.circle(window, (255, 0, 0), state['ball_pos'], 10)
     pygame.display.update()
 
 
-# Loop principal do jogo
-def game_loop(window, assets, state):
-    game = True
+# Atualiza a posição da bola com base na velocidade e no tempo decorrido
+def atualiza_estado(state):
+    t1 = pygame.time.get_ticks() / 1000
+    dt = t1 - state['last_updated']
 
-    while game:
-        game = recebe_eventos(state)
-        desenha(window, assets, state)
+    state['ball_pos'][0] += dt * state['ball_vel'][0]
+    state['ball_pos'][1] += dt * state['ball_vel'][1]
+
+    if state['ball_pos'][0] < 10 or state['ball_pos'][0] > 630:
+        state['ball_vel'][0] *= -1
+    if state['ball_pos'][1] < 10 or state['ball_pos'][1] > 470:
+        state['ball_vel'][1] *= -1
+
+    state['last_updated'] = t1
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            return False
+    return True
