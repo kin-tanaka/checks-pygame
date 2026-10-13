@@ -11,7 +11,7 @@ assets = {
 }
 
 # Gera tela principal
-window = pygame.display.set_mode((640, 480))
+window = pygame.display.set_mode((300, 200))
 pygame.display.set_caption('Jogo do KIN')
 
 # Loop principal do jogo

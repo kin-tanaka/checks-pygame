@@ -10,12 +10,12 @@ def recebe_eventos():
 def desenha(window, assets):
     # Define as cores
     branco = (255, 255, 255)
-    azul_claro = (160, 185, 255)
+    azul_claro = (116, 172, 223)
 
     # Define as coordenadas dos retângulos
-    cord_rect_azul_cima = ((0, 0), (640, 0), (640, 120), (0, 120))
-    cord_rect_branco = ((0, 120), (640, 120), (640, 360), (0, 360))
-    cord_rect_azul_baixo = ((0, 360), (640, 360), (640, 480), (0, 480))
+    cord_rect_azul_cima = ((0, 0), (300, 0), (300, 50), (0, 50))
+    cord_rect_branco = ((0, 50), (300, 50), (300, 150), (0, 150))
+    cord_rect_azul_baixo = ((0, 150), (300, 150), (300, 200), (0, 200))
 
     # Desenha os retângulos na tela
     pygame.draw.polygon(window, azul_claro, cord_rect_azul_cima)
@@ -24,8 +24,8 @@ def desenha(window, assets):
 
     # Desenha o sol da bandeira da Argentina no centro da tela
     sol = assets["sol_bandeira"]
-    sol_formatado = pygame.transform.scale(sol, (200, 200))
-    posicao_sol = sol_formatado.get_rect(center=(320, 240))
+    sol_formatado = pygame.transform.scale(sol, (100, 100))
+    posicao_sol = sol_formatado.get_rect(center=(150, 100))
     window.blit(sol_formatado, posicao_sol)
 
     # Atualiza a tela
