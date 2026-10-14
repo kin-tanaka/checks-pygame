@@ -7,6 +7,7 @@ pygame.init()
 
 # Carrega os assets do jogo
 assets = {
+    "fonte_game" : pygame.font.Font('assets/font/PressStart2P.ttf', 20),
     "nave": pygame.image.load('assets/img/playerShip1_orange.png')
 }
 
