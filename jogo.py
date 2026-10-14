@@ -1,7 +1,18 @@
 import funcoes
+import pygame
+import os
 
+# Inicialização
+pygame.init()
 
-# Inicializa o jogo e entra no loop principal, atualizando o estado e desenhando a tela
-window, assets, state = funcoes.inicializa()
-while funcoes.atualiza_estado(state):
-    funcoes.desenha(window, assets, state)
+# Carrega os assets do jogo
+assets = {
+    "nave": pygame.image.load('assets/img/playerShip1_orange.png')
+}
+
+# Gera tela principal
+window = pygame.display.set_mode((640, 480))
+pygame.display.set_caption('Jogo do KIN')
+
+# Loop principal do jogo
+jogo = funcoes.game_loop(window, assets)
